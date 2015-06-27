@@ -1,6 +1,6 @@
 # simple-android-project-template
 
-Simple Android Project Template using above dependencies:
+Simple Android Project Template using:
  - Android Annotations (3.3.1)
  - Parse (1.9.2)
   - Bolts (1.2.0)
@@ -13,3 +13,17 @@ Simple Android Project Template using above dependencies:
   - cardview-v7
   - support-annotations
   - design
+
+# Usage:
+ - Clone repository;
+ - Delete .git folder;
+ - Import project at Android Studio;
+ - Change Project Name using refactoring tool;
+ - On app/build.gradle
+  - Update any dependency version if needed;
+  - Update AAVersion version if needed;
+  - Update APP_ID to your applicationId;
+  - Update PARSE_APP_ID and PARSE_CLIENT_KEY based on your Parse Keys;
+ - Rename package name on AndroidManifest.xml;
+ - Create package based on AndroidManifest package;
+ - Move if needed, current source files to new package.
