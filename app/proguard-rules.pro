@@ -16,7 +16,7 @@
 #   public *;
 #}
 
-# ButterKnife 8
+# ButterKnife
 
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
@@ -80,16 +80,6 @@
 # CardView
 
 -keep class android.support.v7.widget.RoundRectDrawable { *; }
-
-# Glide
-
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
--keep public class * implements com.bumptech.glide.module.GlideModule
 
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable,Signature,InnerClasses
