@@ -1,6 +1,6 @@
-# simple-android-project-template
+# rxjava-dagger2-parse-project-template
 
-Simple Android Project Template using:
+Android Project using:
 
  - Butterknife (8.0)
  - Dagger 2 (2.2)
