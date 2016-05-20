@@ -1,0 +1,5 @@
+<resources>
+    <string name="no_connectivity">Sem conectividade</string>
+    <string name="not_logged">Não logado</string>
+    <string name="unknown_error">Erro desconhecido</string>
+</resources>

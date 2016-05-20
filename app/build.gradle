@@ -1,144 +1,216 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
 
-def AAVersion = '3.3.1'
+def final appConfig = [
+        "id": "com.app.id",
 
-def APP_ID = "com.simple_android_project_template"
+        "versions": [
+                "support_library": "23.4.0",
+                "leak_canary": "1.4-beta2",
+                "dagger": "2.2",
+                "butterknife": "8.0.1",
+                "stetho": "1.3.1",
+        ],
 
-def getVersionCode = { ->
+        production: [
+                "use_log": "false",
+                "parse_server_url": "\"https://xxx.com\"",
+                "parse_app_id": "\"parse_app_id\"",
+                "parse_android_key": "\"parse_android_key\"",
+                "manifest_placeholders": [
+                        "app_id": "com.app.id"
+                ]
+        ],
+
+        staging: [
+                "use_log": "true",
+                "parse_server_url": "\"https://xxx.com\"",
+                "parse_app_id": "\"parse_app_id\"",
+                "parse_android_key": "\"parse_android_key\"",
+                "manifest_placeholders": [
+                        "app_id": "com.app.id"
+                ]
+        ],
+
+        development: [
+                "use_log": "true",
+                "parse_server_url": "\"https://xxx.com\"",
+                "parse_app_id": "\"parse_app_id\"",
+                "parse_android_key": "\"parse_android_key\"",
+                "manifest_placeholders": [
+                        "app_id": "com.app.id"
+                ]
+        ]
+]
+
+def generateVersionCode() {
     try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'rev-list', '--count', 'HEAD'
-            standardOutput = stdout
-        }
-        return Integer.parseInt(stdout.toString().trim())
-    } catch (s) {
-        println s
-        return 1
+        def cmd = 'git rev-list --count HEAD'
+        cmd.execute().text.trim().toInteger()
+    } catch (ignored) {
+        1
     }
 }
 
-def getVersionName = { ->
+def generateVersionName() {
     try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'describe', '--tags', '--abbrev=0'
-            standardOutput = stdout
-        }
-        return stdout.toString().trim()
-    } catch (s) {
-        println s
-        return "1.0"
+        def cmd = 'git describe --tags --abbrev=0'
+        cmd.execute().text.trim()
+    } catch (ignored) {
+        "1.0"
     }
 }
-
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0].processResources.manifestFile
-        resourcePackageName android.defaultConfig.applicationId
-    }
-}
-
-def completeVersion = getVersionName() + "." + getVersionCode()
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "24.0.0 rc1"
 
     defaultConfig {
-        applicationId APP_ID
+        applicationId "$appConfig.id"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode getVersionCode() ?: 1
-        versionName completeVersion ?: 1
+        targetSdkVersion 23
+        versionCode 1
+        versionName "0.0.0"
+
+        resConfigs "en", "pt-rBR"
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
     }
 
     dexOptions {
-        //incremental true
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "2g"
+        preDexLibraries true
+        incremental true
+        dexInProcess = true
     }
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/DEPENDENCIES'
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("your_keystore.jks")
-            storePassword "storePassword"
-            keyAlias "keyAlias"
-            keyPassword "keyPassword"
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file("xyz.jks")
+//            storePassword "xyz"
+//            keyAlias "xyz"
+//            keyPassword "xyz"
+//        }
+//    }
 
     buildTypes {
-        def BOOLEAN = "boolean"
-        def TRUE = "true"
-        def FALSE = "false"
-        def STRING = "String"
-        def LONG = "long"
-
-        // Parse configurations
-        def PARSE_CLIENT_KEY = "PARSE_CLIENT_KEY"
-        def PARSE_APP_ID = "PARSE_APP_ID"
-
         release {
             minifyEnabled true
             shrinkResources true
+            zipAlignEnabled true
+
+//            signingConfig signingConfigs.release
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            buildConfigField STRING, PARSE_CLIENT_KEY, "\"xxxxxxx\""
-            buildConfigField STRING, PARSE_APP_ID, "\"xxxxxxx\""
         }
 
-        debug {
-            minifyEnabled false
-            shrinkResources true
+//        debug {
+//            signingConfig signingConfigs.release
+//        }
+    }
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-debug.pro'
+    productFlavors {
+        def BOOLEAN = "boolean"
+        def STRING = "String"
 
-            buildConfigField STRING, PARSE_CLIENT_KEY, "\"xxxxxxx\""
-            buildConfigField STRING, PARSE_APP_ID, "\"xxxxxxx\""
+        def USE_LOG = "USE_LOG"
+        def PARSE_SERVER_URL = "PARSE_SERVER_URL"
+        def PARSE_APP_ID = "PARSE_APP_ID"
+        def PARSE_ANDROID_KEY = "PARSE_ANDROID_KEY"
+
+        production {
+            buildConfigField BOOLEAN, USE_LOG, "$appConfig.production.use_log"
+            buildConfigField STRING, PARSE_SERVER_URL, "$appConfig.production.parse_server_url"
+            buildConfigField STRING, PARSE_APP_ID, "$appConfig.production.parse_app_id"
+            buildConfigField STRING, PARSE_ANDROID_KEY, "$appConfig.production.parse_android_key"
+
+            manifestPlaceholders = appConfig.production.manifest_placeholders
+        }
+
+        staging {
+            buildConfigField BOOLEAN, USE_LOG, "$appConfig.staging.use_log"
+            buildConfigField STRING, PARSE_SERVER_URL, "$appConfig.staging.parse_server_url"
+            buildConfigField STRING, PARSE_APP_ID, "$appConfig.staging.parse_app_id"
+            buildConfigField STRING, PARSE_ANDROID_KEY, "$appConfig.staging.parse_android_key"
+
+            manifestPlaceholders = appConfig.staging.manifest_placeholders
+        }
+
+        development {
+            buildConfigField BOOLEAN, USE_LOG, "$appConfig.development.use_log"
+
+            buildConfigField STRING, PARSE_SERVER_URL, "$appConfig.development.parse_server_url"
+            buildConfigField STRING, PARSE_APP_ID, "$appConfig.development.parse_app_id"
+            buildConfigField STRING, PARSE_ANDROID_KEY, "$appConfig.development.parse_android_key"
+            manifestPlaceholders = appConfig.development.manifest_placeholders
         }
     }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+android.applicationVariants.all { variant ->
+    def mergedFlavor = variant.mergedFlavor
+
+    if (!variant.buildType.isDebuggable()) {
+        mergedFlavor.versionCode = generateVersionCode()
+        mergedFlavor.versionName = generateVersionName() + "." + generateVersionCode()
+    }
+}
+
+repositories {
+    // For ButterKnife
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // AA Dependency
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile 'com.parse:parse-android:1.13.0'
 
-    // Otto Event Bus Dependency
-    compile 'com.squareup:otto:1.3.7'
+    compile "com.android.support:appcompat-v7:$appConfig.versions.support_library"
+    compile "com.android.support:design:$appConfig.versions.support_library"
+    compile "com.android.support:cardview-v7:$appConfig.versions.support_library"
+    compile "com.android.support:recyclerview-v7:$appConfig.versions.support_library"
 
-    // Bols Dependency, needed by Parse
-    compile 'com.parse.bolts:bolts-android:1.2.0'
+    compile "com.google.dagger:dagger:$appConfig.versions.dagger"
+    apt "com.google.dagger:dagger-compiler:$appConfig.versions.dagger"
 
-    // Glide Dependency
-    compile 'com.github.bumptech.glide:glide:3.6.0'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:cardview-v7:22.2.0'
-    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.5'
 
-    compile ('com.android.support:recyclerview-v7:22.2.0') {
-        exclude module: 'support-v4'
-    }
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 
-    compile ('com.android.support:design:22.2.0') {
-        exclude module: 'support-v4'
-        exclude module: 'appcompat-v7'
+    compile "com.jakewharton:butterknife:$appConfig.versions.butterknife"
+    apt "com.jakewharton:butterknife-compiler:$appConfig.versions.butterknife"
+
+    debugCompile "com.facebook.stetho:stetho:$appConfig.versions.stetho"
+    debugCompile "com.facebook.stetho:stetho-okhttp3:$appConfig.versions.stetho"
+
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$appConfig.versions.leak_canary"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$appConfig.versions.leak_canary"
+}
+
+apt {
+    arguments {
+        resourcePackageName android.defaultConfig.applicationId
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
     }
 }
