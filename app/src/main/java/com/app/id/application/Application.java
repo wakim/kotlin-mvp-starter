@@ -11,9 +11,10 @@ import com.app.id.bus.PublishItem;
 import com.app.id.dagger.AppComponent;
 import com.app.id.dagger.DaggerAppComponent;
 import com.app.id.dagger.Injector;
+import com.app.id.dagger.modules.ApiModule;
 import com.app.id.dagger.modules.AppModule;
 import com.app.id.receiver.NetworkBroadcastReceiver;
-import com.parse.Parse;
+import com.bumptech.glide.Glide;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -28,10 +29,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class Application extends android.app.Application implements Thread.UncaughtExceptionHandler {
 
     public static final String TAG = BuildConfig.APPLICATION_ID;
-
-    private static final String PARSE_ANDROID_KEY = BuildConfig.PARSE_ANDROID_KEY;
-    private static final String PARSE_SERVER_URL = BuildConfig.PARSE_SERVER_URL;
-    private static final String PARSE_APP_ID = BuildConfig.PARSE_APP_ID;
 
     Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
@@ -65,7 +62,6 @@ public class Application extends android.app.Application implements Thread.Uncau
                 });
 
         setupCrashReporting();
-        setupParse();
         setupLeakCanary();
 
         createComponent();
@@ -83,6 +79,7 @@ public class Application extends android.app.Application implements Thread.Uncau
     private void createComponent() {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+                .apiModule(new ApiModule(BuildConfig.API_URL))
                 .build();
 
         appComponent.inject(this);
@@ -102,24 +99,6 @@ public class Application extends android.app.Application implements Thread.Uncau
 
     void setupLeakCanary() {
         refWatcher = LeakCanary.install(this);
-    }
-
-    private void setupParse() {
-        registerSubClasses();
-
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId(PARSE_APP_ID)
-                .server(PARSE_SERVER_URL)
-                .clientKey(PARSE_ANDROID_KEY).build());
-
-        // Uncomment f needed to store ParseInstallation for push notifications
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
-    }
-
-    private void registerSubClasses() {
-//        ParseObject.registerSubclass(SubClass.class);
     }
 
     private void setupCrashReporting() {
@@ -150,6 +129,20 @@ public class Application extends android.app.Application implements Thread.Uncau
 
     public BaseActivity getForegroundActivity() {
         return foregroundActivity == null ? null : foregroundActivity.get();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+        Glide.with(this).onTrimMemory(level);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+
+        Glide.with(this).onLowMemory();
     }
 
     @Override

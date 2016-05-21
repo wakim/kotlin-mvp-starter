@@ -71,7 +71,6 @@ public class BaseActivity extends AppCompatActivity {
 
     boolean stopped = false;
 
-    boolean navigationAsArrow = false;
     boolean dialogVisible;
 
     @Override
@@ -79,8 +78,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         activityComponent = Injector.obtainAppComponent(this).plus(new ActivityModule(this));
-
-        Injector.obtainAppComponent(this).inject(this);
+        activityComponent.inject(this);
 
         bindConnectivityPublishSubject();
     }

@@ -1,6 +1,5 @@
 package com.app.id.dagger;
 
-import com.app.id.activity.BaseActivity;
 import com.app.id.application.Application;
 import com.app.id.dagger.modules.ActivityModule;
 import com.app.id.dagger.modules.ApiModule;
@@ -14,7 +13,6 @@ import dagger.Component;
 @Component(modules = {AppModule.class, ApiModule.class})
 public interface AppComponent {
     void inject(Application app);
-    void inject(BaseActivity baseActivity);
 
     ActivityComponent plus(ActivityModule activityModule);
 }

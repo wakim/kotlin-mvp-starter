@@ -1,10 +1,12 @@
-# Android Project Template with RxJava, Dagger2 and Parse
+# Android Project Template with RxJava, Dagger2 and Retrofit
 
 All dependencies added to this project template:
 
  - Butterknife (8.0)
  - Dagger 2 (2.2)
- - Parse (1.13.0)
+ - Retrofit 2 (2.0.2)
+ - OkHttp 3 (3.2.0)
+ - Glide (3.7.1)
  - RxJava (1.1.5)
  - RxAndroid (1.2.0)
  - Stetho (1.3.1)
@@ -31,8 +33,8 @@ To run this project you need to have:
 ## Setup the project
 
 1. Install the dependencies above
-2. `$ git clone https://github.com/wakim/simple-android-project-template.git` - Clone the project
-3. `$ cd simple-android-project-template` - Go into the project folder
+2. `$ git clone https://github.com/wakim/rxjava-dagger2-retrofit-project-template.git` - Clone the project
+3. `$ cd rxjava-dagger2-retrofit-project-template` - Go into the project folder
 4. Open Android Studio
 5. Click "Import project (Eclipse ADT, Gradle, etc.)"
 6. Build the project to see if everything is working fine
