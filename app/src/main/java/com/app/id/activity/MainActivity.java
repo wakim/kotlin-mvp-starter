@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import com.app.id.R;
 import com.app.id.controller.ApiController;
-import com.app.id.dagger.Injector;
 
 import javax.inject.Inject;
 
