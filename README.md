@@ -1,6 +1,6 @@
-# rxjava-dagger2-parse-project-template
+# Android Project Template with RxJava, Dagger2 and Parse
 
-Android Project using:
+All dependencies added to this project template:
 
  - Butterknife (8.0)
  - Dagger 2 (2.2)
