@@ -1,15 +1,17 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 def final appConfig = [
         "id": "com.app.id",
 
         "versions": [
+                "kotlin": "$kotlin_version",
+                "paper_parcel": "1.0.0",
                 "support_library": "23.4.0",
                 "leak_canary": "1.4-beta2",
                 "dagger": "2.2",
-                "butterknife": "8.0.1",
                 "stetho": "1.3.1",
                 "retrofit": "2.0.2",
                 "okhttp": "3.2.0"
@@ -60,7 +62,7 @@ def generateVersionName() {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.0 rc1"
+    buildToolsVersion "24.0.0 rc3"
 
     defaultConfig {
         applicationId "$appConfig.id"
@@ -161,12 +163,13 @@ android.applicationVariants.all { variant ->
 }
 
 repositories {
-    // For ButterKnife
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$appConfig.versions.kotlin_version"
 
     compile "com.android.support:appcompat-v7:$appConfig.versions.support_library"
     compile "com.android.support:design:$appConfig.versions.support_library"
@@ -174,7 +177,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$appConfig.versions.support_library"
 
     compile "com.google.dagger:dagger:$appConfig.versions.dagger"
-    apt "com.google.dagger:dagger-compiler:$appConfig.versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$appConfig.versions.dagger"
 
     compile "com.squareup.retrofit2:retrofit:$appConfig.versions.retrofit"
     compile "com.squareup.retrofit2:converter-gson:$appConfig.versions.retrofit"
@@ -188,14 +191,16 @@ dependencies {
 
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
+    compile "com.github.grandstaish.paperparcel:paperparcel:$appConfig.versions.paper_parcel"
+    compile "com.github.grandstaish.paperparcel:paperparcel-kotlin:$appConfig.versions.paper_parcel"
+
+    kapt "com.github.grandstaish.paperparcel:compiler:$appConfig.versions.paper_parcel"
+
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
 
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-
-    compile "com.jakewharton:butterknife:$appConfig.versions.butterknife"
-    apt "com.jakewharton:butterknife-compiler:$appConfig.versions.butterknife"
 
     debugCompile "com.facebook.stetho:stetho:$appConfig.versions.stetho"
     debugCompile "com.facebook.stetho:stetho-okhttp3:$appConfig.versions.stetho"
@@ -204,9 +209,6 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$appConfig.versions.leak_canary"
 }
 
-apt {
-    arguments {
-        resourcePackageName android.defaultConfig.applicationId
-        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
-    }
+kapt {
+    generateStubs = true
 }

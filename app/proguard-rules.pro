@@ -141,3 +141,10 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# PaperParcel
+-dontwarn org.jetbrains.annotations.**
+-keepclassmembers class nz.bradcampbell.paperparcel.PaperParcelMapping {
+  static ** FROM_ORIGINAL;
+  static ** FROM_PARCELABLE;
+}

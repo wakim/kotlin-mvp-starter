@@ -2,7 +2,7 @@
 
 All dependencies added to this project template:
 
- - Butterknife (8.0)
+ - Kotlin (1.0.2)
  - Dagger 2 (2.2)
  - Retrofit 2 (2.0.2)
  - OkHttp 3 (3.2.0)
@@ -13,6 +13,7 @@ All dependencies added to this project template:
  - LeakCanary (1.4-beta2)
  - Calligraphy (2.2.0)
  - CircleImageView (2.0.0)
+ - Paper Parcel (1.0.0)
  - Support Libraries (23.4.0)
   - support-v4
   - appcompat-v7
