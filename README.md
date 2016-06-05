@@ -1,4 +1,4 @@
-# Android Project Template with RxJava, Dagger2 and Retrofit
+# Android Project Template with RxJava, Dagger2 and Retrofit in Kotlin Language
 
 All dependencies added to this project template:
 
@@ -28,14 +28,15 @@ To run this project you need to have:
 
  - JDK 7
  - Android Studio 2.0 or higher
+ - Kotlin Plugin 1.0.2 or higher
 
 ---
 
 ## Setup the project
 
 1. Install the dependencies above
-2. `$ git clone https://github.com/wakim/rxjava-dagger2-retrofit-project-template.git` - Clone the project
-3. `$ cd rxjava-dagger2-retrofit-project-template` - Go into the project folder
+2. `$ git clone https://github.com/wakim/kotlin-rxjava-dagger2-retrofit-project-template.git` - Clone the project
+3. `$ cd kotlin-rxjava-dagger2-retrofit-project-template` - Go into the project folder
 4. Open Android Studio
 5. Click "Import project (Eclipse ADT, Gradle, etc.)"
 6. Build the project to see if everything is working fine
