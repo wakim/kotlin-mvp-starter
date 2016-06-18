@@ -2,19 +2,19 @@
 
 All dependencies added to this project template:
 
- - Kotlin (1.0.2)
- - Dagger 2 (2.2)
- - Retrofit 2 (2.0.2)
- - OkHttp 3 (3.2.0)
+ - Kotlin (1.0.2-1)
+ - Dagger 2 (2.5)
+ - Retrofit 2 (2.1.0)
+ - OkHttp 3 (3.3.1)
  - Glide (3.7.1)
- - RxJava (1.1.5)
- - RxAndroid (1.2.0)
+ - RxJava (1.1.6)
+ - RxAndroid (1.2.1)
  - Stetho (1.3.1)
  - LeakCanary (1.4-beta2)
  - Calligraphy (2.2.0)
  - CircleImageView (2.0.0)
  - Paper Parcel (1.0.0)
- - Support Libraries (23.4.0)
+ - Support Libraries (24.0.0)
   - support-v4
   - appcompat-v7
   - recyclerview-v7
@@ -27,7 +27,7 @@ All dependencies added to this project template:
 To run this project you need to have:
 
  - JDK 7
- - Android Studio 2.0 or higher
+ - Android Studio 2.2 or higher
  - Kotlin Plugin 1.0.2 or higher
 
 ---
