@@ -24,7 +24,7 @@ abstract class RecyclerViewAdapter<M : Parcelable, V : AbstractView<M>>(context:
         set (loading) {
             val old = this.isLoading
 
-            this.isLoading = loading
+            field = loading
 
             if (old != loading) {
                 val size = items.size

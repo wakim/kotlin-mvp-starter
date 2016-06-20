@@ -60,10 +60,12 @@ open class Application : android.app.Application(), Thread.UncaughtExceptionHand
 
         createComponent()
 
-        networkBroadcastReceiver?.let {
+        networkBroadcastReceiver.let {
             isNetworkConnected = it.isNetworkConnected
             isWifiConnected = it.isWifiConnected
         }
+
+        INSTANCE = this
     }
 
     override fun getSystemService(name: String): Any {
@@ -141,5 +143,6 @@ open class Application : android.app.Application(), Thread.UncaughtExceptionHand
 
     companion object {
         val TAG = BuildConfig.APPLICATION_ID
+        var INSTANCE: Application? = null
     }
 }
