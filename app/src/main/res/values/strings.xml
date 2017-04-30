@@ -1,6 +1,3 @@
 <resources>
-    <string name="app_name">Simple Android Project Template</string>
-    <string name="no_connectivity">No connectivity</string>
-    <string name="not_logged">Not logged in</string>
-    <string name="unknown_error">Unknown Error</string>
+    <string name="app_name">MVP Starter</string>
 </resources>
