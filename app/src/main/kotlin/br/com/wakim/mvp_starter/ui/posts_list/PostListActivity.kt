@@ -1,7 +1,12 @@
 package br.com.wakim.mvp_starter.ui.posts_list
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.view.View
+import br.com.wakim.mvp_starter.R
 import br.com.wakim.mvp_starter.data.remote.model.Post
+import br.com.wakim.mvp_starter.databinding.ActivityPostsListBinding
 import br.com.wakim.mvp_starter.ui.BaseActivity
 import javax.inject.Inject
 
@@ -10,16 +15,29 @@ class PostListActivity : BaseActivity(), PostListContract.View {
     @Inject
     lateinit var presenter: PostListContract.Presenter
 
+    lateinit var binding: ActivityPostsListBinding
+
+    val adapter: PostsAdapter by lazy(LazyThreadSafetyMode.NONE) { PostsAdapter() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityComponent.inject(this)
 
+        binding = DataBindingUtil.setContentView<ActivityPostsListBinding>(this, R.layout.activity_posts_list)
+
         presenter.attachView(this)
+
+        configureUI()
 
         if (savedInstanceState == null) {
             presenter.getPosts()
         }
+    }
+
+    fun configureUI() {
+        setSupportActionBar(binding.appBar.toolbar)
+        binding.rvPosts.adapter = adapter
     }
 
     override fun onDestroy() {
@@ -32,18 +50,22 @@ class PostListActivity : BaseActivity(), PostListContract.View {
     }
 
     override fun showNoConnectivityError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showSnack(binding.coordinatorLayout, R.string.no_connectivity, Snackbar.LENGTH_INDEFINITE, R.string.try_again, {
+            presenter.getPosts()
+        })
     }
 
     override fun showUnknownError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showSnack(binding.coordinatorLayout, R.string.unknown_error, Snackbar.LENGTH_INDEFINITE, R.string.try_again, {
+            presenter.getPosts()
+        })
     }
 
     override fun setLoadingIndicatorVisible(loadingVisible: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        binding.loading.visibility = if (loadingVisible) View.VISIBLE else View.GONE
     }
 
     override fun showPosts(posts: List<Post>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        adapter.setList(posts)
     }
 }

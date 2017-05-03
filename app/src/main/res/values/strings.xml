@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MVP Starter</string>
+    <string name="posts">Posts</string>
+    <string name="no_connectivity">No connectivity</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="try_again">Try Again</string>
 </resources>
