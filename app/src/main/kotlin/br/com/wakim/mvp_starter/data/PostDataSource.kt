@@ -1,5 +1,6 @@
-package br.com.wakim.mvp_starter.data.remote
+package br.com.wakim.mvp_starter.data
 
+import br.com.wakim.mvp_starter.data.remote.Api
 import br.com.wakim.mvp_starter.data.remote.model.Post
 import io.reactivex.Observable
 

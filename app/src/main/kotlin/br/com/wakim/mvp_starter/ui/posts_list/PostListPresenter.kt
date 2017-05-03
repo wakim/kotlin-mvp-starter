@@ -1,6 +1,6 @@
 package br.com.wakim.mvp_starter.ui.posts_list
 
-import br.com.wakim.mvp_starter.data.remote.PostDataSource
+import br.com.wakim.mvp_starter.data.PostDataSource
 import br.com.wakim.mvp_starter.data.remote.model.Post
 import br.com.wakim.mvp_starter.exception.NoNetworkException
 import br.com.wakim.mvp_starter.extensions.addToCompositeDisposable
