@@ -23,7 +23,7 @@ import javax.net.ssl.SSLPeerUnverifiedException
 @Module
 class ApiModule {
 
-    open fun getOkHttpBuilder(): OkHttpClient.Builder =
+    fun getOkHttpBuilder(): OkHttpClient.Builder =
             OkHttpClient.Builder()
                     .addInterceptor(HttpLoggingInterceptor()
                             .apply { level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE }
