@@ -1,5 +1,6 @@
 # MVP Starter Android Project
 
+This is a simple project demonstrating the MVP architecture using Kotlin, RxJava, Dagger2 and a bit of Databind.
 
 ## Dependencies
 
