@@ -15,8 +15,8 @@ To run this project you need to have:
 ## Setup the project
 
 1. Install the dependencies above
-2. `$ git clone https://github.com/wakim/mvp-starter.git` - Clone the project
-3. `$ cd mvp-starter` - Go into the project folder
+2. `$ git clone https://github.com/wakim/kotlin-mvp-starter.git` - Clone the project
+3. `$ cd kotlin-mvp-starter` - Go into the project folder
 4. Open Android Studio
 5. Click "Import project (Eclipse ADT, Gradle, etc.)"
 6. Build the project to see if everything is working fine
