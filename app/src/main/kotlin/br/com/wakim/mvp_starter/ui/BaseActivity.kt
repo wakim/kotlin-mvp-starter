@@ -37,7 +37,7 @@ open class BaseActivity : AppCompatActivity() {
         showSnack(parent, getString(messageResId), length, actionLabelResId?.let { getString(it) }, action, callback)
     }
 
-    fun showSnack(parent: ViewGroup, message: String, length: Int,
+    private fun showSnack(parent: ViewGroup, message: String, length: Int,
                   actionLabel: String? = null, action: ((View) -> Unit)? = null,
                   callback: ((Snackbar) -> Unit)? = null) {
 

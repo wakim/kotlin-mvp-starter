@@ -1,14 +1,14 @@
 # MVP Starter Android Project
 
-This is a simple project demonstrating the MVP architecture using Kotlin, RxJava, Dagger2 and a bit of Databind.
+This is a simple project demonstrating the MVP architecture using Kotlin, RxJava, Dagger2 and a bit of databind.
 
 ## Dependencies
 
 To run this project you need to have:
 
  - JDK 7
- - Android Studio 2.3 or higher
- - Kotlin Plugin 1.1.2 or higher
+ - Android Studio 3.0 or higher
+ - Kotlin Plugin 1.1.60 or higher
 
 ---
 
@@ -18,8 +18,8 @@ To run this project you need to have:
 2. `$ git clone https://github.com/wakim/kotlin-mvp-starter.git` - Clone the project
 3. `$ cd kotlin-mvp-starter` - Go into the project folder
 4. Open Android Studio
-5. Click "Import project (Eclipse ADT, Gradle, etc.)"
-6. Build the project to see if everything is working fine
+5. Click "Open an existing Android Studio Project"
+6. Build the project and run the tests to see if everything is working fine
 
 License
 --------

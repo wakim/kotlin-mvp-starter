@@ -15,16 +15,16 @@ class PostListActivity : BaseActivity(), PostListContract.View {
     @Inject
     lateinit var presenter: PostListContract.Presenter
 
-    lateinit var binding: ActivityPostsListBinding
+    private lateinit var binding: ActivityPostsListBinding
 
-    val adapter: PostsAdapter by lazy(LazyThreadSafetyMode.NONE) { PostsAdapter() }
+    private val adapter: PostsAdapter by lazy(LazyThreadSafetyMode.NONE) { PostsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityComponent.inject(this)
 
-        binding = DataBindingUtil.setContentView<ActivityPostsListBinding>(this, R.layout.activity_posts_list)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_posts_list)
 
         presenter.attachView(this)
 
@@ -35,8 +35,8 @@ class PostListActivity : BaseActivity(), PostListContract.View {
         }
     }
 
-    fun configureUI() {
-        setSupportActionBar(binding.appBar.toolbar)
+    private fun configureUI() {
+        setSupportActionBar(binding.appBar?.toolbar)
         binding.rvPosts.adapter = adapter
     }
 
