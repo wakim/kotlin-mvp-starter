@@ -65,7 +65,11 @@ class PostListPresenterTest {
 
     @Test
     fun `should show posts list when fetching posts`() {
-        val posts = listOf(Post(1, 1, "title 1", "body 1"), Post(2, 1, "title 2", "body 2"), Post(3, 1, "title 3", "body 3"))
+        val posts = listOf(
+                Post(1, 1, "title 1", "body 1"),
+                Post(2, 1, "title 2", "body 2"),
+                Post(3, 1, "title 3", "body 3")
+        )
 
         `when`(dataSource.getPosts())
                 .thenReturn(Observable.just(posts))
@@ -75,27 +79,6 @@ class PostListPresenterTest {
         verify(view).setLoadingIndicatorVisible(true)
         verify(view).setLoadingIndicatorVisible(false)
         verify(view).showPosts(posts)
-
-        verify(dataSource).getPosts()
-    }
-
-    @Test
-    fun `should show posts list to new view when fetching posts`() {
-        val posts = listOf(Post(1, 1, "title 1", "body 1"), Post(2, 1, "title 2", "body 2"), Post(3, 1, "title 3", "body 3"))
-
-        `when`(dataSource.getPosts())
-                .thenReturn(Observable.just(posts))
-
-        presenter.detachView(view)
-
-        presenter.getPosts()
-
-        presenter.attachView(view)
-
-        verify(view).showPosts(posts)
-
-        verify(view).setLoadingIndicatorVisible(true)
-        verify(view).setLoadingIndicatorVisible(false)
 
         verify(dataSource).getPosts()
     }

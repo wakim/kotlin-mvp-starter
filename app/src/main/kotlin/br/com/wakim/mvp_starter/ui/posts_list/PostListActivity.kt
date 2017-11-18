@@ -45,7 +45,7 @@ class PostListActivity : BaseActivity(), PostListContract.View {
         presenter.detachView(this)
 
         if (!configPersistDelegate.instanceSaved) {
-            presenter.unsubscribe()
+            presenter.destroy()
         }
     }
 
